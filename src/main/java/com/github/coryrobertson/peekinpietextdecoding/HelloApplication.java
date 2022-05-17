@@ -6,17 +6,21 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class HelloApplication extends Application
 {
 
-    public final String alphabet = "abcdefghijklmnopqrstuvwxyz";
+    public static final String alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+    public static String piText;
+
+    public static String piConverted;
 
 
     @Override
@@ -25,15 +29,35 @@ public class HelloApplication extends Application
         Scene scene = new Scene(fxmlLoader.load(), 600, 600);
         stage.setTitle("Hello!");
         stage.setScene(scene);
-        //String digits = readFile(new File("./pi-one-million.txt"));
-        String digits = "00010203040506070809101112131415161718192021222324252627";
-        String[] groups = convertToGroups(digits);
-        String converted = convertGroupsToLetters(groups);
+
+        piText = readFile(new File("./pi-one-million.txt"));
+        piConverted = convertDigitsToLetters(piText);
+        int index = piConverted.indexOf("cory");
+        String digitsForIndex = piText.substring(index, index + ("cory".length() * 2));
+
+        File output = new File("./output.txt");
+        FileWriter fw = new FileWriter(output);
+        fw.write(piConverted);
+        fw.close();
+
+//        int test1 = convertToGroups(piText).length;
+//        int test2 = convertGroupsToLetters(convertToGroups(piText)).length();
+
         stage.show();
     }
 
     public static void main(String[] args) {
         launch();
+    }
+
+    public static String convertDigitsToLetters(String digits)
+    {
+        String letters;
+
+        String[] groups = convertToGroups(digits);
+        letters = convertGroupsToLetters(groups);
+
+        return letters;
     }
 
     private String readFile(File file)
@@ -52,7 +76,7 @@ public class HelloApplication extends Application
         return digits;
     }
 
-    private String[] convertToGroups(String digits)
+    private static String[] convertToGroups(String digits)
     {
         String[] groups = new String[digits.length()];
         ArrayList<String> arr = new ArrayList<>();
@@ -75,14 +99,14 @@ public class HelloApplication extends Application
         return arr.toArray(new String[0]);
     }
 
-    private String digitToLetter(String input)
+    private static String digitToLetter(String input)
     {
         int number = Integer.parseInt(input) % 26;
-        //String letters = "abcdefghijklmnopqrstuvwxyz";
+
         return String.valueOf(alphabet.charAt(number));
     }
 
-    private String convertGroupsToLetters(String[] groups)
+    private static String convertGroupsToLetters(String[] groups)
     {
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < groups.length; i++)
