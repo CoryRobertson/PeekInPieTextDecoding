@@ -27,10 +27,11 @@ public class HelloApplication extends Application
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 600);
-        stage.setTitle("Hello!");
+        stage.setTitle("Peek In Pi to Text!");
         stage.setScene(scene);
 
         piText = readFile(new File("./pi-one-million.txt"));
+        //piText = "498498149498491111111111841";
         piConverted = convertDigitsToLetters(piText);
         int index = piConverted.indexOf("cory");
         String digitsForIndex = piText.substring(index, index + ("cory".length() * 2));

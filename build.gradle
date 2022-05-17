@@ -56,3 +56,15 @@ jlink {
 jlinkZip {
     group = 'distribution'
 }
+
+distributions
+        {
+            main
+                    {
+                        contents
+                                {
+                                    from ("./pi-one-million.txt") {into 'bin'}
+                                }
+                    }
+
+        }
