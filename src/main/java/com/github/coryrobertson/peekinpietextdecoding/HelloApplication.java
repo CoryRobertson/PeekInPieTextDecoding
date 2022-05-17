@@ -31,18 +31,12 @@ public class HelloApplication extends Application
         stage.setScene(scene);
 
         piText = readFile(new File("./pi-one-million.txt"));
-        //piText = "498498149498491111111111841";
         piConverted = convertDigitsToLetters(piText);
-        int index = piConverted.indexOf("cory");
-        String digitsForIndex = piText.substring(index, index + ("cory".length() * 2));
 
         File output = new File("./output.txt");
         FileWriter fw = new FileWriter(output);
         fw.write(piConverted);
         fw.close();
-
-//        int test1 = convertToGroups(piText).length;
-//        int test2 = convertGroupsToLetters(convertToGroups(piText)).length();
 
         stage.show();
     }
@@ -63,7 +57,7 @@ public class HelloApplication extends Application
 
     private String readFile(File file)
     {
-        String digits = "";
+        String digits;
 
 
         try {
@@ -79,7 +73,6 @@ public class HelloApplication extends Application
 
     private static String[] convertToGroups(String digits)
     {
-        String[] groups = new String[digits.length()];
         ArrayList<String> arr = new ArrayList<>();
 
 
@@ -110,9 +103,8 @@ public class HelloApplication extends Application
     private static String convertGroupsToLetters(String[] groups)
     {
         StringBuilder sb = new StringBuilder();
-        for(int i = 0; i < groups.length; i++)
-        {
-            sb.append(digitToLetter(groups[i]));
+        for (String group : groups) {
+            sb.append(digitToLetter(group));
         }
         return sb.toString();
     }
