@@ -35,25 +35,38 @@ public class HelloController {
         {
             String input = textField.getText();
             input = input.replaceAll("\\s", "");
-            String output = "";
+            String output;
             //String converted = HelloApplication.convertDigitsToLetters(input);
-            int index = HelloApplication.piConverted.indexOf(input);
-            int indexDisplay = index + 1;
+            int index = HelloApplication.piConverted.indexOf(input); // index at which the word shows up
+
+            if(index < 0)
+            {
+                //if index is less than 0 the word was not found, and we can exit the function and change the output text
+                outputText1.setText("Word not found.");
+                return;
+            }
+
+            int indexDisplay = index + 1; // variable to make index 0 = 1 for user display
 
             //index and input text append
             //output += ("index: " + indexDisplay + "\ninput text: " + input + "\n");
 
-            final int margin = 4;
+            int marginFront = 4;
+            int marginBack = 4;
+
+            //change margins depending on end and front of file so no index out of bounds exceptions occur
+            if(index < marginFront) {marginFront = index;}
+            if(index + input.length() + marginBack > HelloApplication.piConverted.length()) {marginBack = HelloApplication.piConverted.length() - index - input.length();}
 
             //data with index and input text shown to user
             String data = ("index: " + indexDisplay + "\ninput text: " + input + "\n");
 
             //text with margin for user
-            String textWithMargin = HelloApplication.piConverted.substring(index - margin, index + input.length() + margin) + "\n";
+            String textWithMargin = HelloApplication.piConverted.substring(index - marginFront, index + input.length() + marginBack) + "\n";
             //output += HelloApplication.piConverted.substring(index - margin, index + input.length() + margin) + "\n";
 
             //front margin
-            String frontMargin = HelloApplication.piText.substring((index - margin) * 2, (index * 2));
+            String frontMargin = HelloApplication.piText.substring((index - marginFront) * 2, (index * 2));
             //output += HelloApplication.piText.substring((index - margin) * 2, (index * 2));
 
             //output
@@ -61,7 +74,7 @@ public class HelloController {
             //output += "    ->    " + HelloApplication.piText.substring((index) * 2, (index + input.length()) * 2) + "    <-    ";
 
             //back margin
-            String backMargin = HelloApplication.piText.substring((index + input.length()) * 2, (index + input.length() + margin) * 2);
+            String backMargin = HelloApplication.piText.substring((index + input.length()) * 2, (index + input.length() + marginBack) * 2);
             //output += HelloApplication.piText.substring((index + input.length()) * 2, (index + input.length() + margin) * 2);
 
 
