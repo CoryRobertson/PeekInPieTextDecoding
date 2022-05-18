@@ -1,10 +1,10 @@
 package com.github.coryrobertson.peekinpietextdecoding;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
-public class HelloController {
+public class HelloController
+{
     @FXML
     private Label outputText1;
 
@@ -18,8 +18,42 @@ public class HelloController {
     private TextField textField2;
 
     @FXML
+    private  Spinner<Integer> frontMarginSpinner = new Spinner<>();
+
+    @FXML
+    private  Spinner<Integer> backMarginSpinner = new Spinner<>();
+
+    private final SpinnerValueFactory<Integer> spinnerFrontValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,10);
+    private final SpinnerValueFactory<Integer> spinnerBackValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,10);
+
+    @FXML
+    public void initialize()
+    {
+        backMarginSpinner.setValueFactory(this.spinnerBackValueFactory);
+        frontMarginSpinner.setValueFactory(this.spinnerFrontValueFactory);
+
+        frontMarginSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
+        {
+            if (!"".equals(newValue))
+            {
+                onHelloButtonClick();
+            }
+        });
+
+        backMarginSpinner.getEditor().textProperty().addListener((obs, oldValue, newValue) ->
+        {
+            if(!"".equals(newValue))
+            {
+                onHelloButtonClick();
+            }
+        });
+
+    }
+
+    @FXML
     protected void onButton2Click()
     {
+
         if(!textField2.getText().isEmpty())
         {
             String input = textField2.getText();
@@ -28,9 +62,13 @@ public class HelloController {
         }
     }
 
+
+
+
     @FXML
     protected void onHelloButtonClick()
     {
+
         if(!textField.getText().isEmpty())
         {
             String input = textField.getText();
@@ -51,8 +89,8 @@ public class HelloController {
             //index and input text append
             //output += ("index: " + indexDisplay + "\ninput text: " + input + "\n");
 
-            int marginFront = 4;
-            int marginBack = 4;
+            int marginFront = frontMarginSpinner.getValue();
+            int marginBack = backMarginSpinner.getValue();
 
             //change margins depending on end and front of file so no index out of bounds exceptions occur
             if(index < marginFront) {marginFront = index;}
@@ -88,6 +126,12 @@ public class HelloController {
         {
             outputText1.setText("");
         }
+    }
+
+    @FXML
+    public void frontSpinnerChanged()
+    {
+        onHelloButtonClick();
     }
 
     public String spaceOutEveryTwo(String input)
